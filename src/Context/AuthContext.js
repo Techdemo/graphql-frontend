@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
   const [username, setUsername] = useState(null)
 
   const login = (reqBody) => {
-    const url = 'http://localhost:3001/graphql'
+    const url = '/graphql'
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(reqBody),
@@ -17,13 +17,10 @@ export function AuthProvider({ children }) {
       }
     })
       .then(res => {
-        if (res.status === 200) {
           return res.json()
-        } else {
-          throw new Error('Sukkel')
-        }
       })
       .then(response => {
+        console.log("response", response)
         if (response.data.login) {
           setToken(response.data.login.token)
           setUserId(response.data.login.userId)

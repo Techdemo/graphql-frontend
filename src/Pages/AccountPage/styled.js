@@ -12,3 +12,17 @@ export const Container = styled.div`
   height: 100%;
   margin-top: 1.5em;
 `;
+
+export const PersonDetailList = styled.ul`
+  list-style-type: none;
+  text-indent: -20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 150px;
+`
+
+export const PersonDetail = styled.li`
+   font-family: ProzaLibre-Medium;
+   font-size: 16px;
+`

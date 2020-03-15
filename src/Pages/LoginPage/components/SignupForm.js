@@ -15,7 +15,7 @@ const SignupForm = () => {
     login
   } = useAuth()
 
-  const url = 'http://localhost:3001/graphql'
+  const url = '/graphql'
 
   const submitHandler = event => {
     event.preventDefault()
