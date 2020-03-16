@@ -4,12 +4,15 @@ import { useAuth } from '../../../Context/AuthContext';
 import { Form, Label, Button, Fieldset, Input, AlertText, AlertTextContainer } from './styled';
 
 const LoginForm = () => {
-  const [validationError, setValidationError] = useState(false)
   const emailEl = useRef('')
   const passwordEl = useRef('')
 
   const {
-    login
+    login,
+    errorState,
+    errorMessage,
+    setErrorState,
+    setErrorMessage
   } = useAuth()
 
   const submitHandler = event => {
@@ -18,12 +21,16 @@ const LoginForm = () => {
     const password = passwordEl.current.value.trim()
 
     if (email.length === 0 || password.length === 0) {
-      setValidationError(true)
-      setTimeout(() => setValidationError(false), 2000)
+      setErrorState(true)
+      setErrorMessage('Fill in all of the below form fields')
+      setTimeout(() => {
+        setErrorState(false)
+        setErrorMessage('')
+      }, 2000)
       return;
     }
 
-    let reqBody = {
+   let reqBody = {
       query: `
         query {
           login (email:"${email}", password: "${password}") {
@@ -35,14 +42,14 @@ const LoginForm = () => {
         }
       `
     }
-    login(reqBody)
+      login(reqBody)
   }
 
 
   return (
     <>
       <AlertTextContainer>
-        <AlertText active={validationError}>*Please fill in all of the form fields</AlertText>
+        <AlertText active={errorState}>*{errorMessage}</AlertText>
       </AlertTextContainer>
       <Form onSubmit={submitHandler}>
         <Fieldset>

@@ -7,6 +7,9 @@ export function AuthProvider({ children }) {
   const [tokenExpiration, setTokenExpiration] = useState(null)
   const [username, setUsername] = useState(null)
 
+  const [errorState, setErrorState] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
   const login = (reqBody) => {
     const url = '/graphql'
     fetch(url, {
@@ -17,10 +20,14 @@ export function AuthProvider({ children }) {
       }
     })
       .then(res => {
+        if (res.status === 200 || res.status === 201) {
           return res.json()
+        } else {
+          setErrorState(true)
+          setErrorMessage('User does not exist')
+        }
       })
       .then(response => {
-        console.log("response", response)
         if (response.data.login) {
           setToken(response.data.login.token)
           setUserId(response.data.login.userId)
@@ -29,6 +36,12 @@ export function AuthProvider({ children }) {
         }
       })
       .catch(err => {
+        setErrorState(true)
+        setErrorMessage('User does not exist')
+        setTimeout(() => {
+          setErrorState(false)
+          setErrorMessage('')
+        }, 2000)
         console.log(err)
       })
   }
@@ -49,7 +62,11 @@ export function AuthProvider({ children }) {
     setToken,
     login,
     logout,
-    username
+    username,
+    errorState,
+    errorMessage,
+    setErrorState,
+    setErrorMessage
   }}>
     {children}
   </AuthContext.Provider>
