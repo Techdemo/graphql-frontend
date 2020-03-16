@@ -33,7 +33,7 @@ const AccountPage = () => {
       if(res.status === 200) {
         return res.json()
       } else {
-        throw new Error('Sukkel')
+        throw new Error('Error')
       }
     })
     .then(data => {

@@ -57,7 +57,7 @@ const SignupForm = () => {
         if (res.status === 200) {
           return res.json()
         } else {
-          throw new Error('Sukkel', Error)
+          throw new Error('Error', Error)
         }
       })
       .then(data => {
